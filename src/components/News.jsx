@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
-import moment from 'moment';
-
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
+import moment from 'moment';
 import Loader from './Loader';
 
 const demoImage = 'https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News';
@@ -31,7 +30,7 @@ const News = ({ simplified }) => {
                         filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
                         <Option value="Cryptocurrency">Cryptocurrency</Option>
-                        {data?.data?.coins?.map((currency) => <Option value={currency.name}>{currency.name}</Option>)}
+                        {data?.data?.coins?.map((currency, i) => <Option key={i} value={currency.name}>{currency.name}</Option>)}
                     </Select>
                 </Col>
             )}
@@ -41,7 +40,7 @@ const News = ({ simplified }) => {
                         <a href={news.url} target="_blank" rel="noreferrer">
                             <div className="news-image-container">
                                 <Title className="news-title" level={4}>{news.name}</Title>
-                                <img src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
+                                <img className="news-image" src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
                             </div>
                             <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
                             <div className="provider-container">

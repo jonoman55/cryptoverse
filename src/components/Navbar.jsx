@@ -1,54 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Menu, Typography, Avatar } from 'antd';
+import React from 'react';
+import { Button, Menu, Typography, Avatar, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
-
+import { useWindowSize } from '../hooks/useWindowSize';
 import icon from '../images/cryptocurrency.png';
 
+const { Item } = Menu;
+const { Title } = Typography;
+
+const MainMenu = () => (
+    <Menu theme="dark">
+        <Item key={0} icon={<HomeOutlined />}>
+            <Link to="/">Home</Link>
+        </Item>
+        <Item key={1} icon={<FundOutlined />}>
+            <Link to="/cryptocurrencies">Cryptocurrencies</Link>
+        </Item>
+        <Item key={2} icon={<MoneyCollectOutlined />}>
+            <Link to="/exchanges">Exchanges</Link>
+        </Item>
+        <Item key={3} icon={<BulbOutlined />}>
+            <Link to="/news">News</Link>
+        </Item>
+    </Menu>
+);
+
+const DropDownMenu = () => (
+    <Dropdown overlay={MainMenu}>
+        <Button className="menu-control-container">
+            <MenuOutlined style={{ display: 'flex', justifyContent: 'center' }} />
+        </Button>
+    </Dropdown>
+);
+
 const Navbar = () => {
-    const [activeMenu, setActiveMenu] = useState(true);
-    const [screenSize, setScreenSize] = useState(undefined);
-
-    useEffect(() => {
-        const handleResize = () => setScreenSize(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        handleResize();
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useEffect(() => {
-        if (screenSize <= 800) {
-            setActiveMenu(false);
-        } else {
-            setActiveMenu(true);
-        }
-    }, [screenSize]);
-
+    const { width } = useWindowSize();
+    const screenWidth = width <= 800;
     return (
         <div className="nav-container">
             <div className="logo-container">
                 <Avatar src={icon} size="large" />
-                <Typography.Title level={2} className="logo"><Link to="/">Cryptoverse</Link></Typography.Title>
-                <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}>
-                    <MenuOutlined style={{ display: 'flex', justifyContent: 'center' }} />
-                </Button>
+                <Title level={2} className="logo">
+                    <Link to="/">Cryptoverse</Link>
+                </Title>
             </div>
-            {activeMenu && (
-                <Menu theme="dark">
-                    <Menu.Item icon={<HomeOutlined />}>
-                        <Link to="/">Home</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<FundOutlined />}>
-                        <Link to="/cryptocurrencies">Cryptocurrencies</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<MoneyCollectOutlined />}>
-                        <Link to="/exchanges">Exchanges</Link>
-                    </Menu.Item>
-                    <Menu.Item icon={<BulbOutlined />}>
-                        <Link to="/news">News</Link>
-                    </Menu.Item>
-                </Menu>
-            )}
+            {!screenWidth ? <MainMenu /> : <DropDownMenu />}
         </div>
     );
 };

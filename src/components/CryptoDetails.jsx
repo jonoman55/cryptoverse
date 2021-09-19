@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import HTMLReactParser from 'html-react-parser';
 import { useParams } from 'react-router';
-import millify from 'millify';
 import { Col, Row, Typography, Select } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
-
-import {  useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi';
+import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi';
+import HTMLReactParser from 'html-react-parser';
+import millify from 'millify';
 import Loader from './Loader';
 import LineChart from './LineChart';
 
@@ -24,19 +23,19 @@ const CryptoDetails = () => {
     const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
 
     const stats = [
-      { title: 'Price to USD', value: `$ ${cryptoDetails.price && millify(cryptoDetails.price)}`, icon: <DollarCircleOutlined /> },
-      { title: 'Rank', value: cryptoDetails.rank, icon: <NumberOutlined /> },
-      { title: '24h Volume', value: `$ ${cryptoDetails.volume && millify(cryptoDetails.volume)}`, icon: <ThunderboltOutlined /> },
-      { title: 'Market Cap', value: `$ ${cryptoDetails.marketCap && millify(cryptoDetails.marketCap)}`, icon: <DollarCircleOutlined /> },
-      { title: 'All-time-high(daily avg.)', value: `$ ${millify(cryptoDetails.allTimeHigh.price)}`, icon: <TrophyOutlined /> },
+        { title: 'Price to USD', value: `$ ${cryptoDetails.price && millify(cryptoDetails.price)}`, icon: <DollarCircleOutlined /> },
+        { title: 'Rank', value: cryptoDetails.rank, icon: <NumberOutlined /> },
+        { title: '24h Volume', value: `$ ${cryptoDetails.volume && millify(cryptoDetails.volume)}`, icon: <ThunderboltOutlined /> },
+        { title: 'Market Cap', value: `$ ${cryptoDetails.marketCap && millify(cryptoDetails.marketCap)}`, icon: <DollarCircleOutlined /> },
+        { title: 'All-time-high(daily avg.)', value: `$ ${millify(cryptoDetails.allTimeHigh.price)}`, icon: <TrophyOutlined /> },
     ];
   
     const genericStats = [
-      { title: 'Number Of Markets', value: cryptoDetails.numberOfMarkets, icon: <FundOutlined /> },
-      { title: 'Number Of Exchanges', value: cryptoDetails.numberOfExchanges, icon: <MoneyCollectOutlined /> },
-      { title: 'Approved Supply', value: cryptoDetails.approvedSupply ? <CheckOutlined /> : <StopOutlined />, icon: <ExclamationCircleOutlined /> },
-      { title: 'Total Supply', value: `$ ${millify(cryptoDetails.totalSupply)}`, icon: <ExclamationCircleOutlined /> },
-      { title: 'Circulating Supply', value: `$ ${millify(cryptoDetails.circulatingSupply)}`, icon: <ExclamationCircleOutlined /> },
+        { title: 'Number Of Markets', value: cryptoDetails.numberOfMarkets, icon: <FundOutlined /> },
+        { title: 'Number Of Exchanges', value: cryptoDetails.numberOfExchanges, icon: <MoneyCollectOutlined /> },
+        { title: 'Approved Supply', value: cryptoDetails.approvedSupply ? <CheckOutlined /> : <StopOutlined />, icon: <ExclamationCircleOutlined /> },
+        { title: 'Total Supply', value: `$ ${millify(cryptoDetails.totalSupply)}`, icon: <ExclamationCircleOutlined /> },
+        { title: 'Circulating Supply', value: `$ ${millify(cryptoDetails.circulatingSupply)}`, icon: <ExclamationCircleOutlined /> },
     ];
 
     return (
@@ -57,8 +56,8 @@ const CryptoDetails = () => {
                         <Title level={3} className="coin-details-heading">{cryptoDetails.name} Value Statistics</Title>
                         <p>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
                     </Col>
-                    {stats.map(({ icon, title, value }) => (
-                        <Col className="coin-stats">
+                    {stats.map(({ icon, title, value }, i) => (
+                        <Col className="coin-stats" key={i}>
                             <Col className="coin-stats-name">
                                 <Text>{icon}</Text>
                                 <Text>{title}</Text>
@@ -72,8 +71,8 @@ const CryptoDetails = () => {
                         <Title level={3} className="coin-details-heading">Other Stats Info</Title>
                         <p>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
                     </Col>
-                    {genericStats.map(({ icon, title, value }) => (
-                        <Col className="coin-stats">
+                    {genericStats.map(({ icon, title, value }, i) => (
+                        <Col className="coin-stats" key={i}>
                             <Col className="coin-stats-name">
                                 <Text>{icon}</Text>
                                 <Text>{title}</Text>
@@ -90,8 +89,8 @@ const CryptoDetails = () => {
                 </Row>
                 <Col className="coin-links">
                     <Title level={3} className="coin-details-heading">{cryptoDetails.name} Links</Title>
-                    {cryptoDetails.links?.map((link) => (
-                        <Row className="coin-link" key={link.name}>
+                    {cryptoDetails.links?.map((link, i) => (
+                        <Row className="coin-link" key={i}>
                             <Title level={5} className="link-name">{link.type}</Title>
                             <a href={link.url} target="_blank" rel="noreferrer">{link.name}</a>
                         </Row>
