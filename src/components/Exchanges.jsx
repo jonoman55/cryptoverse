@@ -1,6 +1,6 @@
 import React from 'react';
 import millify from 'millify';
-import { Collapse, Row, Col, Typography, Avatar } from 'antd';
+import { Collapse, Row, Col, Typography, Avatar, Card } from 'antd';
 import HTMLReactParser from 'html-react-parser';
 import { useGetExchangesQuery } from '../services/cryptoApi';
 import Loader from './Loader';
@@ -15,6 +15,30 @@ const Exchanges = () => {
 
     if (isFetching) return <Loader />;
 
+    if (!exchangesList) return (
+        <Card style={{
+            height: '85.75vh', display: 'flex', justifyContent: 'space-evenly',
+            alignItems: 'center', flexDirection: 'column', flexWrap: 'nowrap'
+        }}>
+            <div>
+                <Text style={{ fontWeight: 'bold', fontSize: 24, display: 'flex', textAlign: 'center' }}>
+                    Exchanges is disabled due to API limitations...
+                </Text>
+            </div>
+            <a
+                href='https://developers.coinranking.com/api/documentation/exchanges'
+                target='_blank'
+                rel='noreferrer'
+                style={{
+                    color: '#0071bd', fontWeight: 'bold',
+                    fontSize: 18, display: 'flex', justifyContent: 'center'
+                }}
+            >
+                Coinranking API
+            </a>
+        </Card>
+    );
+
     return (
         <>
             <Row>
@@ -24,26 +48,26 @@ const Exchanges = () => {
                 <Col span={6} style={bold}>Change</Col>
             </Row>
             <Row>
-                {exchangesList.map((exchange) => (
-                    <Col span={24} key={exchange.id}>
+                {exchangesList && exchangesList?.map((exchange) => (
+                    <Col span={24} key={exchange?.id}>
                         <Collapse>
                             <Panel
-                                key={exchange.id}
+                                key={exchange?.id}
                                 showArrow={false}
                                 header={(
-                                    <Row key={exchange.id}>
+                                    <Row key={exchange?.id}>
                                         <Col span={6}>
-                                            <Text><strong>{exchange.rank}.</strong></Text>
+                                            <Text><strong>{exchange?.rank}.</strong></Text>
                                             <Avatar className="exchange-image" src={exchange.iconUrl} alt="" />
-                                            <Text><strong>{exchange.name}</strong></Text>
+                                            <Text><strong>{exchange?.name}</strong></Text>
                                         </Col>
-                                        <Col span={6}>${millify(exchange.volume)}</Col>
-                                        <Col span={6}>{millify(exchange.numberOfMarkets)}</Col>
-                                        <Col span={6}>{millify(exchange.marketShare)}%</Col>
+                                        <Col span={6}>${millify(exchange?.volume)}</Col>
+                                        <Col span={6}>{millify(exchange?.numberOfMarkets)}</Col>
+                                        <Col span={6}>{millify(exchange?.marketShare)}%</Col>
                                     </Row>
                                 )}
                             >
-                                {HTMLReactParser(exchange.description || '')}
+                                {HTMLReactParser(exchange?.description || '')}
                             </Panel>
                         </Collapse>
                     </Col>

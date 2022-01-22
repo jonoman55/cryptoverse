@@ -13,7 +13,9 @@ const Cryptocurrencies = ({ simplified }) => {
 
     useEffect(() => {
         setCryptos(cryptosList?.data?.coins);
-        const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
+        const filteredData = cryptosList?.data?.coins?.filter((item) =>
+            item?.name?.toLowerCase().includes(searchTerm)
+        );
         setCryptos(filteredData);
     }, [cryptosList, searchTerm]);
 
@@ -27,13 +29,13 @@ const Cryptocurrencies = ({ simplified }) => {
                 </div>
             )}
             <Row gutter={[32, 32]} className="crypto-card-container">
-                {cryptos?.map((currency) => (
-                    <Col xs={24} sm={12} lg={6} className="crypto-card" key={currency.id}>
-                        <Link key={currency.id} to={`/crypto/${currency.id}`}>
-                            <Card title={`${currency.rank}. ${currency.name}`} extra={<img className="crypto-image" src={currency.iconUrl} alt="" />} hoverable>
-                                <p>Price: {millify(currency.price)}</p>
-                                <p>Market Cap: {millify(currency.marketCap)}</p>
-                                <p>Daily Change: {currency.change}%</p>
+                {cryptos?.map((currency, index) => (
+                    <Col xs={24} sm={12} lg={6} className="crypto-card" key={index}>
+                        <Link key={index} to={`/crypto/${currency?.uuid}`}>
+                            <Card title={`${currency.rank}. ${currency?.name}`} extra={<img className="crypto-image" src={currency?.iconUrl} alt="" />} hoverable>
+                                <p>Price: {millify(currency?.price)}</p>
+                                <p>Market Cap: {millify(currency?.marketCap)}</p>
+                                <p>Daily Change: {currency?.change}%</p>
                             </Card>
                         </Link>
                     </Col>
