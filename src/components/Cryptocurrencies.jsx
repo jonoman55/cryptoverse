@@ -11,6 +11,11 @@ const Cryptocurrencies = ({ simplified }) => {
     const [cryptos, setCryptos] = useState();
     const [searchTerm, setSearchTerm] = useState('');
 
+    useEffect(() => { 
+        setCryptos(cryptosList?.data?.coins);
+        // eslint-disable-next-line
+    }, []);
+
     useEffect(() => {
         setCryptos(cryptosList?.data?.coins);
         const filteredData = cryptosList?.data?.coins?.filter((item) =>

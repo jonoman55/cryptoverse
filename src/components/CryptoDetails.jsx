@@ -21,15 +21,10 @@ const CryptoDetails = () => {
 
     if (isFetching) return <Loader />;
 
-    let volume;
-    Object.entries(cryptoDetails).forEach(([key, value]) => {
-        console.log(key, value);
-        if (key === '24hVolume')
-            volume = value;
-    });
-
     const time = ['24h', '7d', '30d'];
-
+    
+    const volume = cryptoDetails['24hVolume'];
+    
     const stats = [
         { title: 'Price to USD', value: `$ ${cryptoDetails?.price && millify(cryptoDetails?.price)}`, icon: <DollarCircleOutlined /> },
         { title: 'Rank', value: cryptoDetails?.rank, icon: <NumberOutlined /> },
